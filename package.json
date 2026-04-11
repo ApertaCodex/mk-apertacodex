@@ -1,0 +1,159 @@
+{
+  "name": "mk-apertacodex",
+  "displayName": "Smart  Markdown",
+  "description": "Integrates mk.apertacodex.ai directly into VS Code — access your AI-powered markdown knowledge base without leaving the editor.",
+  "version": "0.0.1",
+  "publisher": "apertacodex",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apertacodex/my-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/apertacodex/my-extension/issues"
+  },
+  "homepage": "https://github.com/apertacodex/my-extension#readme",
+  "engines": {
+    "vscode": "^1.108.0"
+  },
+  "categories": [
+    "Other",
+    "AI",
+    "Notebooks"
+  ],
+  "keywords": [
+    "ai",
+    "markdown",
+    "knowledge base",
+    "apertacodex",
+    "mk",
+    "notes",
+    "wiki"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mk-apertacodex",
+          "title": "MK ApertaCodex AI",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "mk-apertacodex": [
+        {
+          "type": "webview",
+          "id": "myext.mkView",
+          "name": "MK ApertaCodex AI"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "myext.openPanel",
+        "title": "Open MK ApertaCodex AI",
+        "icon": "$(globe)",
+        "category": "MK ApertaCodex"
+      },
+      {
+        "command": "myext.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)",
+        "category": "MK ApertaCodex"
+      },
+      {
+        "command": "myext.goHome",
+        "title": "Go to Home",
+        "icon": "$(home)",
+        "category": "MK ApertaCodex"
+      },
+      {
+        "command": "myext.openExternal",
+        "title": "Open in Browser",
+        "icon": "$(link-external)",
+        "category": "MK ApertaCodex"
+      },
+      {
+        "command": "myext.copyUrl",
+        "title": "Copy URL",
+        "icon": "$(copy)",
+        "category": "MK ApertaCodex"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "myext.goHome",
+          "when": "view == myext.mkView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "myext.refresh",
+          "when": "view == myext.mkView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "myext.openExternal",
+          "when": "view == myext.mkView",
+          "group": "navigation@3"
+        },
+        {
+          "command": "myext.copyUrl",
+          "when": "view == myext.mkView",
+          "group": "navigation@4"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "myext.openPanel",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m"
+      },
+      {
+        "command": "myext.refresh",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "view == myext.mkView"
+      }
+    ],
+    "configuration": {
+      "title": "MK ApertaCodex AI",
+      "properties": {
+        "mkApertacodex.baseUrl": {
+          "type": "string",
+          "default": "https://mk.apertacodex.ai/",
+          "description": "Base URL for the MK ApertaCodex AI application."
+        },
+        "mkApertacodex.autoLoad": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically load the webview when VS Code starts."
+        },
+        "mkApertacodex.rememberLastPage": {
+          "type": "boolean",
+          "default": true,
+          "description": "Remember and restore the last visited page on reload."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.108.1",
+    "@types/node": "^25.0.9",
+    "typescript": "^5.9.3",
+    "ovsx": "^0.10.8"
+  },
+  "dependencies": {}
+}
