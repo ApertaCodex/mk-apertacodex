@@ -2,6 +2,23 @@
 
 All notable changes to **MK ApertaCodex AI** will be documented in this file.
 
+## [0.0.7] - Icon & Status Bar Fix
+
+### Fixed
+- **Fixed marketplace icon not displaying** — `images/icon.png` was a JPEG data URI string instead of a real PNG file. Added `generate-icon` script with instructions to create a proper 128x128+ PNG icon.
+- **Fixed Activity Bar icon** — `resources/icon.svg` was a base64 data URI instead of actual SVG markup. Replaced with proper inline SVG.
+
+### Added
+- **Status Bar Indicator** — Shows the current state of the MK panel (loading, connected, error, idle) in the VS Code status bar. Click to open the panel.
+- **`mkApertacodex.showStatusBar` setting** — Toggle the status bar indicator on/off.
+- **`generate-icon` npm script** — Helper to validate or guide creation of the marketplace PNG icon.
+- Webview now sends `loadError` message on timeout, enabling proper error state in status bar.
+
+## [0.0.6]
+
+### Changed
+- Various improvements
+
 ## [0.0.4] - Command Prefix Fix
 
 ### Fixed

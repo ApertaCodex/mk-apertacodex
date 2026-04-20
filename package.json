@@ -2,7 +2,7 @@
   "name": "mk-apertacodex",
   "displayName": "Smart  Markdown",
   "description": "Integrates mk.apertacodex.ai directly into VS Code — access your AI-powered markdown knowledge base without leaving the editor.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "apertacodex",
   "license": "MIT",
   "repository": {
@@ -139,6 +139,11 @@
           "type": "boolean",
           "default": true,
           "description": "Remember and restore the last visited page on reload."
+        },
+        "mkApertacodex.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show MK ApertaCodex status indicator in the status bar."
         }
       }
     }
@@ -147,7 +152,8 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "package": "vsce package"
+    "package": "vsce package",
+    "generate-icon": "node scripts/generate-icon.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.108.1",

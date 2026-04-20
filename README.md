@@ -10,6 +10,7 @@
 - **Remember Last Page** — Optionally restore the last visited page when you reopen VS Code.
 - **Open in Browser** — One-click to pop the current page into your default browser.
 - **Copy URL** — Instantly copy the current page URL to your clipboard.
+- **Status Bar Indicator** — See at a glance whether the panel is connected, loading, or has an error.
 - **Error Recovery** — Friendly error screen with retry and open-in-browser options if connectivity fails.
 - **Configurable Base URL** — Point the extension at any deployment of the MK app.
 
@@ -47,6 +48,20 @@ Open **Settings** (`Ctrl+,`) and search for `MK ApertaCodex`:
 | `mkApertacodex.baseUrl` | `https://mk.apertacodex.ai/` | Base URL for the application |
 | `mkApertacodex.autoLoad` | `true` | Auto-focus the panel on startup |
 | `mkApertacodex.rememberLastPage` | `true` | Restore last visited page on reload |
+| `mkApertacodex.showStatusBar` | `true` | Show status indicator in the status bar |
+
+## Marketplace Icon
+
+If the extension icon is not visible in the marketplace, you need to ensure `images/icon.png` is a **real PNG file** (not a renamed JPEG or data URI). Run the helper script for guidance:
+
+```bash
+npm run generate-icon
+```
+
+The icon must be:
+- At least **128×128 pixels** (256×256 recommended)
+- A valid **PNG** file format
+- Saved at `images/icon.png`
 
 ## Building from Source
 

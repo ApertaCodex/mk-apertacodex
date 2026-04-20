@@ -1,15 +1,18 @@
 import * as vscode from 'vscode';
 import { Logger } from './logger';
 import { MkViewProvider } from './MkViewProvider';
+import { StatusBarManager } from './StatusBarManager';
 
 let logger: Logger;
 let mkViewProvider: MkViewProvider;
+let statusBarManager: StatusBarManager;
 
 export function activate(context: vscode.ExtensionContext): void {
     logger = new Logger('MK ApertaCodex AI');
     logger.info('Extension activating...');
 
     mkViewProvider = new MkViewProvider(context, logger);
+    statusBarManager = new StatusBarManager(context, logger);
 
     // Register the webview view provider
     context.subscriptions.push(
@@ -62,6 +65,14 @@ export function activate(context: vscode.ExtensionContext): void {
         })
     );
 
+    // Listen for webview state changes to update status bar
+    mkViewProvider.onDidChangeState((state) => {
+        statusBarManager.updateState(state);
+    });
+
+    // Initialize status bar
+    statusBarManager.initialize();
+
     // Auto-focus the view if configured
     const config = vscode.workspace.getConfiguration('mkApertacodex');
     if (config.get<boolean>('autoLoad', true)) {
@@ -73,6 +84,15 @@ export function activate(context: vscode.ExtensionContext): void {
             );
         }, 1500);
     }
+
+    // Listen for configuration changes
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeConfiguration((e) => {
+            if (e.affectsConfiguration('mkApertacodex.showStatusBar')) {
+                statusBarManager.updateVisibility();
+            }
+        })
+    );
 
     logger.info('Extension activated successfully');
 }

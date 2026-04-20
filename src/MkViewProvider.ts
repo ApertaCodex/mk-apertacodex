@@ -4,16 +4,26 @@ import { Logger } from './logger';
 const DEFAULT_URL = 'https://mk.apertacodex.ai/';
 const STATE_KEY_LAST_URL = 'mkApertacodex.lastUrl';
 
+/** Possible states for the webview panel */
+export type MkViewState = 'loading' | 'loaded' | 'error' | 'idle';
+
 export class MkViewProvider implements vscode.WebviewViewProvider {
     private _view?: vscode.WebviewView;
     private _currentUrl: string;
     private readonly _context: vscode.ExtensionContext;
     private readonly _logger: Logger;
 
+    /** Event emitter for state changes (used by StatusBarManager) */
+    private readonly _onDidChangeState = new vscode.EventEmitter<MkViewState>();
+    public readonly onDidChangeState: vscode.Event<MkViewState> = this._onDidChangeState.event;
+
     constructor(context: vscode.ExtensionContext, logger: Logger) {
         this._context = context;
         this._logger = logger;
         this._currentUrl = this._getInitialUrl();
+
+        // Dispose the event emitter when the extension is deactivated
+        context.subscriptions.push(this._onDidChangeState);
     }
 
     public resolveWebviewView(
@@ -32,6 +42,7 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
         webviewView.description = 'AI-powered knowledge base';
 
         this._setContent(this._currentUrl);
+        this._onDidChangeState.fire('loading');
 
         // Handle messages from the webview
         webviewView.webview.onDidReceiveMessage(
@@ -46,6 +57,9 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
         webviewView.onDidChangeVisibility(() => {
             if (webviewView.visible) {
                 this._logger.info(`View became visible, current URL: ${this._currentUrl}`);
+                this._onDidChangeState.fire('loaded');
+            } else {
+                this._onDidChangeState.fire('idle');
             }
         });
 
@@ -57,6 +71,7 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
             vscode.window.showWarningMessage('MK ApertaCodex AI panel is not open yet.');
             return;
         }
+        this._onDidChangeState.fire('loading');
         this._setContent(this._currentUrl);
         this._logger.info(`Refreshed: ${this._currentUrl}`);
     }
@@ -66,6 +81,7 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
         this._currentUrl = baseUrl;
         this._saveLastUrl(baseUrl);
         if (this._view) {
+            this._onDidChangeState.fire('loading');
             this._setContent(baseUrl);
         }
     }
@@ -108,10 +124,17 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
                 vscode.window.showErrorMessage(
                     `MK ApertaCodex AI: ${message.text ?? 'An error occurred'}`
                 );
+                this._onDidChangeState.fire('error');
                 break;
 
             case 'loaded':
                 this._logger.info('Webview content loaded successfully');
+                this._onDidChangeState.fire('loaded');
+                break;
+
+            case 'loadError':
+                this._logger.warn('Webview failed to load content');
+                this._onDidChangeState.fire('error');
                 break;
 
             default:
@@ -367,6 +390,7 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
             frame.style.display = 'none';
             errorScreen.style.display = 'flex';
             setLoading(false);
+            vscode.postMessage({ command: 'loadError' });
         }
 
         function hideError() {
