@@ -5,10 +5,6 @@ import { MkViewProvider } from './MkViewProvider';
 let logger: Logger;
 let mkViewProvider: MkViewProvider;
 
-/**
- * Activates the MK ApertaCodex AI extension.
- * Registers the webview view provider and all commands.
- */
 export function activate(context: vscode.ExtensionContext): void {
     logger = new Logger('MK ApertaCodex AI');
     logger.info('Extension activating...');
