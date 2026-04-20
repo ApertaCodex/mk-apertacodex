@@ -2,7 +2,7 @@
   "name": "mk-apertacodex",
   "displayName": "Smart  Markdown",
   "description": "Integrates mk.apertacodex.ai directly into VS Code — access your AI-powered markdown knowledge base without leaving the editor.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "apertacodex",
   "license": "MIT",
   "repository": {
