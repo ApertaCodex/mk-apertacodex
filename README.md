@@ -38,6 +38,7 @@ All commands are available via the Command Palette (`Ctrl+Shift+P`):
 | `MK ApertaCodex: Go to Home` | Navigate to the base URL |
 | `MK ApertaCodex: Open in Browser` | Open current URL in default browser |
 | `MK ApertaCodex: Copy URL` | Copy current URL to clipboard |
+| `MK ApertaCodex: Generate Marketplace Icon` | Regenerate the PNG icon |
 
 ## Configuration
 
@@ -50,23 +51,26 @@ Open **Settings** (`Ctrl+,`) and search for `MK ApertaCodex`:
 | `mkApertacodex.rememberLastPage` | `true` | Restore last visited page on reload |
 | `mkApertacodex.showStatusBar` | `true` | Show status indicator in the status bar |
 
-## Marketplace Icon
+## Icons
 
-If the extension icon is not visible in the marketplace, you need to ensure `images/icon.png` is a **real PNG file** (not a renamed JPEG or data URI). Run the helper script for guidance:
+The extension uses two icons:
+
+1. **Activity Bar icon** (`resources/icon.svg`) — SVG displayed in the VS Code sidebar.
+2. **Marketplace icon** (`images/icon.png`) — 256×256 PNG displayed on the marketplace listing.
+
+The marketplace icon is auto-generated during `npm run vscode:prepublish`. To regenerate manually:
 
 ```bash
 npm run generate-icon
 ```
 
-The icon must be:
-- At least **128×128 pixels** (256×256 recommended)
-- A valid **PNG** file format
-- Saved at `images/icon.png`
+Or from the Command Palette: **MK ApertaCodex: Generate Marketplace Icon**
 
 ## Building from Source
 
 ```bash
 npm install
+npm run generate-icon   # Creates images/icon.png
 npm run compile
 ```
 

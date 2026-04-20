@@ -1,8 +1,11 @@
-.PHONY: build patch-version install clean publish
+.PHONY: build patch-version install clean publish generate-icon
 
 all: build
 
-build: patch-version
+generate-icon:
+	node scripts/generate-icon.js
+
+build: patch-version generate-icon
 	npm run compile && vsce package
 
 patch-version:

@@ -2,6 +2,24 @@
 
 All notable changes to **MK ApertaCodex AI** will be documented in this file.
 
+## [0.0.9] - Icon Fix
+
+### Fixed
+- **Fixed marketplace icon not displaying** — `images/icon.png` was a JPEG data URI string instead of a real binary PNG file. The icon generator script now creates a proper 256×256 PNG using pure Node.js (no external dependencies).
+- **Fixed Activity Bar icon not displaying** — `resources/icon.svg` was a base64 data URI instead of actual SVG markup. Replaced with proper inline SVG content.
+
+### Changed
+- **`vscode:prepublish` now auto-generates the icon** — Running `npm run generate-icon` is now part of the prepublish step, ensuring a valid PNG always exists before packaging.
+- **Improved icon generator** — The `scripts/generate-icon.js` script now renders a branded 256×256 PNG with "MK" text, rounded background, and sparkle decorations using only built-in Node.js modules (`zlib`, `fs`, `path`).
+
+### Added
+- **`mk-apertacodex.generateIcon` command** — Developers can regenerate the marketplace icon from within VS Code via the command palette.
+
+## [0.0.8]
+
+### Changed
+- Various improvements
+
 ## [0.0.7] - Icon & Status Bar Fix
 
 ### Fixed

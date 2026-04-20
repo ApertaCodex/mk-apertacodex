@@ -65,6 +65,23 @@ export function activate(context: vscode.ExtensionContext): void {
         })
     );
 
+    context.subscriptions.push(
+        vscode.commands.registerCommand('mk-apertacodex.generateIcon', async () => {
+            try {
+                const cp = await import('child_process');
+                const path = await import('path');
+                const scriptPath = path.join(context.extensionPath, 'scripts', 'generate-icon.js');
+                cp.execSync(`node "${scriptPath}"`, { cwd: context.extensionPath });
+                vscode.window.showInformationMessage('MK ApertaCodex AI: Marketplace icon generated successfully at images/icon.png');
+                logger.info('Marketplace icon generated successfully');
+            } catch (err) {
+                const message = err instanceof Error ? err.message : String(err);
+                vscode.window.showErrorMessage(`MK ApertaCodex AI: Failed to generate icon — ${message}`);
+                logger.error('Failed to generate icon', err);
+            }
+        })
+    );
+
     // Listen for webview state changes to update status bar
     mkViewProvider.onDidChangeState((state) => {
         statusBarManager.updateState(state);
