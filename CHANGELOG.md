@@ -17,3 +17,8 @@ All notable changes to **MK ApertaCodex AI** will be documented in this file.
 - Loading progress bar animation
 - Configuration: `baseUrl`, `autoLoad`, `rememberLastPage`
 - Output channel logging for diagnostics
+
+### Fixed
+- All command identifiers updated from `myext.*` to `mk-apertacodex.*` to follow naming conventions
+- View ID updated from `myext.mkView` to `mk-apertacodex.mkView` for consistency
+- All `when` clause references updated to use the new view ID

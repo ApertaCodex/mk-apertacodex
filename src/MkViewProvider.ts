@@ -4,6 +4,10 @@ import { Logger } from './logger';
 const DEFAULT_URL = 'https://mk.apertacodex.ai/';
 const STATE_KEY_LAST_URL = 'mkApertacodex.lastUrl';
 
+/**
+ * Provides the webview view for the MK ApertaCodex AI sidebar panel.
+ * Handles navigation, URL tracking, and communication between the webview and the extension.
+ */
 export class MkViewProvider implements vscode.WebviewViewProvider {
     private _view?: vscode.WebviewView;
     private _currentUrl: string;
@@ -52,6 +56,7 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
         this._logger.info(`Webview resolved, loading: ${this._currentUrl}`);
     }
 
+    /** Refreshes the current page in the webview. */
     public refresh(): void {
         if (!this._view) {
             vscode.window.showWarningMessage('MK ApertaCodex AI panel is not open yet.');
@@ -61,6 +66,7 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
         this._logger.info(`Refreshed: ${this._currentUrl}`);
     }
 
+    /** Navigates the webview back to the configured base URL. */
     public goHome(): void {
         const baseUrl = this._getBaseUrl();
         this._currentUrl = baseUrl;
@@ -70,6 +76,7 @@ export class MkViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
+    /** Returns the current URL being displayed in the webview. */
     public getCurrentUrl(): string {
         return this._currentUrl;
     }

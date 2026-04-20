@@ -5,6 +5,10 @@ import { MkViewProvider } from './MkViewProvider';
 let logger: Logger;
 let mkViewProvider: MkViewProvider;
 
+/**
+ * Activates the MK ApertaCodex AI extension.
+ * Registers the webview view provider and all commands.
+ */
 export function activate(context: vscode.ExtensionContext): void {
     logger = new Logger('MK ApertaCodex AI');
     logger.info('Extension activating...');
@@ -14,7 +18,7 @@ export function activate(context: vscode.ExtensionContext): void {
     // Register the webview view provider
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
-            'myext.mkView',
+            'mk-apertacodex.mkView',
             mkViewProvider,
             {
                 webviewOptions: {
@@ -26,27 +30,27 @@ export function activate(context: vscode.ExtensionContext): void {
 
     // Register commands
     context.subscriptions.push(
-        vscode.commands.registerCommand('myext.openPanel', () => {
-            vscode.commands.executeCommand('myext.mkView.focus');
+        vscode.commands.registerCommand('mk-apertacodex.openPanel', () => {
+            vscode.commands.executeCommand('mk-apertacodex.mkView.focus');
         })
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('myext.refresh', () => {
+        vscode.commands.registerCommand('mk-apertacodex.refresh', () => {
             mkViewProvider.refresh();
             logger.info('View refreshed by user');
         })
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('myext.goHome', () => {
+        vscode.commands.registerCommand('mk-apertacodex.goHome', () => {
             mkViewProvider.goHome();
             logger.info('Navigated home');
         })
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('myext.openExternal', () => {
+        vscode.commands.registerCommand('mk-apertacodex.openExternal', () => {
             const url = mkViewProvider.getCurrentUrl();
             vscode.env.openExternal(vscode.Uri.parse(url));
             logger.info(`Opened externally: ${url}`);
@@ -54,7 +58,7 @@ export function activate(context: vscode.ExtensionContext): void {
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('myext.copyUrl', async () => {
+        vscode.commands.registerCommand('mk-apertacodex.copyUrl', async () => {
             const url = mkViewProvider.getCurrentUrl();
             await vscode.env.clipboard.writeText(url);
             vscode.window.showInformationMessage(`URL copied: ${url}`);
@@ -67,7 +71,7 @@ export function activate(context: vscode.ExtensionContext): void {
     if (config.get<boolean>('autoLoad', true)) {
         // Small delay to allow the activity bar to initialize
         setTimeout(() => {
-            vscode.commands.executeCommand('myext.mkView.focus').then(
+            vscode.commands.executeCommand('mk-apertacodex.mkView.focus').then(
                 () => logger.info('Auto-focused MK view'),
                 (err) => logger.warn(`Auto-focus skipped: ${err}`)
             );

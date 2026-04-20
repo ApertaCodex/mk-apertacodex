@@ -1,5 +1,8 @@
 import * as vscode from 'vscode';
 
+/**
+ * Centralized logger that writes timestamped messages to a VS Code output channel.
+ */
 export class Logger {
     private readonly outputChannel: vscode.OutputChannel;
 
